@@ -1,0 +1,20 @@
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: DownloadSecureFile@1
+    name: caCertificate
+    displayName: 'Download CA certificate'
+    inputs:
+      secureFile: 'sshkey2.pem'
+
+  - script: |
+      echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
+      sudo chown root:root $(caCertificate.secureFilePath)
+      sudo chmod a+r $(caCertificate.secureFilePath)
+      sudo ln -s -t /etc/ssl/certs/ $(caCertificate.secureFilePath)
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: '(Get-Content -Path $(caCertificate.secureFilePath))'
