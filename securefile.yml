@@ -6,7 +6,7 @@ steps:
     name: caCertificate
     displayName: 'Download CA certificate'
     inputs:
-      secureFile: 'sshkey2.pem'
+      secureFile: 'cerbot_dev.pem'
 
   - script: |
       echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
